@@ -1,0 +1,1 @@
+Touch screen jquery slide plugin with vertical as well as horizontal sliding support
