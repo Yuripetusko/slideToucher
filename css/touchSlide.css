@@ -6,19 +6,16 @@
 }
 
 .slide {
-	background:red;
-	width:1024px;
+	width:100%;
 	height:100%;
 	display:inline-block;
 	float:left;
 	vertical-align:top;
-	border-right:1px solid #E4E4E4;
 }
 
 .row {
 	display:block;
 	width:100%;
 	height:100%;
-
 	border-bottom:1px solid #e4e4e4;
 }

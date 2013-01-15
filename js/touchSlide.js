@@ -52,7 +52,12 @@
 		
 		
 		plugin.init = function () {
-            plugin.options = $.extend({}, options);
+            plugin.options = $.extend({
+            	vertical: false,
+            	horizontal: true
+            }, options);
+
+            plugin.setWidth();
 
 			plugin.bindEvents();
         };
@@ -65,6 +70,12 @@
 			var time_delta = upPosTime - downXtime;			
 			var transition_time = 1 / (distance_delta / time_delta);
 	        return Math.min(transition_time, 1);
+		};
+
+		plugin.setWidth = function() {
+			var slideWidth = $slide.eq(0).outerWidth(true);
+			plugin.$el.css("width", slideWidth* $row.eq(0).find(".slide").length);
+			$slide.css("width", slideWidth);
 		};
 
 		plugin.bindEvents = function() {
