@@ -201,6 +201,7 @@
 				
 				if (slideType === "horizontal") {
 					var transitionTime = plugin.getTransitionTime(downX, upX, downXtime, upXtime);
+					console.log(transitionTime)
 					plugin.$el.css({
 						'-webkit-transform': 'translate3d(' + plugin[slideType].pixelOffset + 'px,'+(offset.top - start_offset.top)+'px,0)',
 						'-webkit-transition-duration': transitionTime + 's'
