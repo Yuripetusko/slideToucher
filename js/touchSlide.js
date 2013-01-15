@@ -67,7 +67,7 @@
 			calculates the transition time from the speed of the swipe, ceiling of 1s
 			*/
 			var distance_delta = Math.abs(downPos - upPos);
-			var time_delta = upPosTime - downPostime;			
+			var time_delta = upPosTime - downPosTime;			
 			var transition_time = 1 / (distance_delta / time_delta);
 	        return Math.min(transition_time, 1);
 		};
