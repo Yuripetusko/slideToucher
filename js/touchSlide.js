@@ -128,8 +128,6 @@
 				offset = plugin.$el.offset();
 				startClientX = event.clientX;
 				startClientY = event.clientY;
-				
-				console.log(offset)
 			}	
 		};
 		
@@ -154,7 +152,6 @@
 			if (sliding == 1 && deltaSlideX != 0 && Math.abs(deltaSlideX) > 15) {
 				sliding = 2;
 				slideType = "horizontal";
-				console.log("LA", offset.top)
 				
 				startPixelOffset = plugin.horizontal.pixelOffset;
 			} else if (sliding == 1 && deltaSlideY != 0 && Math.abs(deltaSlideY) > 15) {
@@ -173,8 +170,6 @@
 					startClienPos = startClientY,
 					eventPos = event.clientY;
 			}
-			
-			console.log(offset.top)
 			
 			if (sliding == 2) {
 				var touchPixelRatio = 1;
@@ -206,6 +201,7 @@
 				
 				if (slideType === "horizontal") {
 					var transitionTime = plugin.getTransitionTime(downX, upX, downXtime, upXtime);
+					console.log(transitionTime)
 					plugin.$el.css({
 						'-webkit-transform': 'translate3d(' + plugin[slideType].pixelOffset + 'px,'+(offset.top - start_offset.top)+'px,0)',
 						'-webkit-transition-duration': transitionTime + 's'
