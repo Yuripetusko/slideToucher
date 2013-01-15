@@ -1,0 +1,20 @@
+body {
+	width:100%;
+}
+
+.slide {
+	position:relative;
+}
+
+.slide span {
+	font-size:86px;
+	width:86px;
+	font-weight:bold;
+	color:#333;
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin-left:-86px;
+	margin-top:-86px;
+	text-align:center;
+}
