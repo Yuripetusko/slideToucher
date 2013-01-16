@@ -67,8 +67,9 @@
 			calculates the transition time from the speed of the swipe, ceiling of 1s
 			*/
 			var distance_delta = Math.abs(downPos - upPos);
-			var time_delta = upPosTime - downPosTime;			
+			var time_delta = upPosTime - downPosTime;
 			var transition_time = 1 / (distance_delta / time_delta);
+			console.log(distance_delta, time_delta, transition_time)
 	        return Math.min(transition_time, 1);
 		};
 
@@ -180,9 +181,11 @@
 				plugin[slideType].pixelOffset = startPixelOffset + deltaSlide / touchPixelRatio;
 				
 				if (slideType === "horizontal") {
-					plugin.$el.attr("class", "").css('-webkit-transform', 'translate3d(' + plugin[slideType].pixelOffset + 'px,'+(offset.top-start_offset.top)+'px,0)');
+					plugin.el.style.WebkitTransform = "translateX("+ plugin[slideType].pixelOffset + "px) translateY(" + (offset.top-start_offset.top)+"px)";
+					//plugin.$el.attr("class", "").css('-webkit-transform', 'translate3d(' + plugin[slideType].pixelOffset + 'px,'+(offset.top-start_offset.top)+'px,0)');
 				} else if (slideType === "vertical"){
-					plugin.$el.attr("class", "").css('-webkit-transform', 'translate3d('+(offset.left - start_offset.left)+'px,' + plugin[slideType].pixelOffset + 'px, 0)');
+					plugin.el.style.WebkitTransform = "translateX("+ (offset.left - start_offset.left) + "px) translateY(" + plugin[slideType].pixelOffset +"px)";
+					//plugin.$el.attr("class", "").css('-webkit-transform', 'translate3d('+(offset.left - start_offset.left)+'px,' + plugin[slideType].pixelOffset + 'px, 0)');
 				}	
 			
 			}
@@ -201,17 +204,27 @@
 				
 				if (slideType === "horizontal") {
 					var transitionTime = plugin.getTransitionTime(downX, upX, downXtime, upXtime);
-					console.log(transitionTime)
-					plugin.$el.css({
+					var transformX = 'translateX(' + plugin[slideType].pixelOffset + 'px)';
+					var transformY =  'translateY('+(offset.top - start_offset.top)+'px)';
+					plugin.el.style['-webkit-transition-duration'] = transitionTime + 's'
+  					plugin.el.style.WebkitTransform = transformX + " " + transformY;
+					/*plugin.$el.css({
 						'-webkit-transform': 'translate3d(' + plugin[slideType].pixelOffset + 'px,'+(offset.top - start_offset.top)+'px,0)',
 						'-webkit-transition-duration': transitionTime + 's'
 					}).addClass('animate');
+					*/
 				} else {
 					var transitionTime = plugin.getTransitionTime(downY, upY, downYtime, upYtime);
+					var transformX = 'translateX('+ (offset.left - start_offset.left) +'px)';
+					var transformY =  'translateY('+ plugin[slideType].pixelOffset +'px)';
+					plugin.el.style['-webkit-transition-duration'] = transitionTime + 's'
+  					plugin.el.style.WebkitTransform = transformX + " " + transformY;
+					/*
 					plugin.$el.css({
 						'-webkit-transform': 'translate3d('+(offset.left - start_offset.left)+'px,' + plugin[slideType].pixelOffset + 'px, 0)',
 						'-webkit-transition-duration': transitionTime + 's'
-					}).addClass('animate');	
+					}).addClass('animate');
+					*/
 				}
 				
 			} else {
