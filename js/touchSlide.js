@@ -70,7 +70,9 @@
 			var distance_delta = Math.abs(downPos - upPos);
 			var time_delta = upPosTime - downPosTime;
 			var transition_time = 1 / (distance_delta / time_delta);
-	        return Math.min(transition_time, 1);
+			var screenSizeDelta = slideWidth / 1024;
+			console.log(Math.min(transition_time*screenSizeDelta, screenSizeDelta))
+	        return Math.min(transition_time*screenSizeDelta, screenSizeDelta);
 		};
 
 		plugin.setWidth = function() {
