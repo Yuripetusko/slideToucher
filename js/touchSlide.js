@@ -28,7 +28,8 @@
 		var upYtime = "";
 		
 		var slideType = "";
-		var offset = "";
+		var offsetLeft = "";
+		var offsetTop = "";
 		var start_offset = plugin.$el.offset();
 		
 		var defaults = {
@@ -69,7 +70,6 @@
 			var distance_delta = Math.abs(downPos - upPos);
 			var time_delta = upPosTime - downPosTime;
 			var transition_time = 1 / (distance_delta / time_delta);
-			console.log(distance_delta, time_delta, transition_time)
 	        return Math.min(transition_time, 1);
 		};
 
@@ -126,7 +126,8 @@
 
 			if (sliding == 0) {
 				sliding = 1;
-				offset = plugin.$el.offset();
+				offsetLeft = plugin.$el.offset().left - start_offset.left;
+				offsetTop = plugin.$el.offset().top - start_offset.top;
 				startClientX = event.clientX;
 				startClientY = event.clientY;
 			}	
@@ -181,11 +182,9 @@
 				plugin[slideType].pixelOffset = startPixelOffset + deltaSlide / touchPixelRatio;
 				
 				if (slideType === "horizontal") {
-					//plugin.el.style.WebkitTransform = "translateX("+ plugin[slideType].pixelOffset + "px) translateY(" + (offset.top-start_offset.top) +"px)";
-					plugin.el.style.WebkitTransform = 'translate3d(' + plugin[slideType].pixelOffset + 'px, ' + (offset.top-start_offset.top) + 'px, 0)';
+					plugin.el.style.WebkitTransform = 'translate3d(' + plugin[slideType].pixelOffset + 'px, ' + offsetTop + 'px, 0)';
 				} else if (slideType === "vertical"){
-					//plugin.el.style.WebkitTransform = "translateX("+ (offset.left - start_offset.left) + "px) translateY(" + plugin[slideType].pixelOffset +"px)";
-					plugin.el.style.WebkitTransform = 'translate3d(' + (offset.left - start_offset.left) + 'px, ' + plugin[slideType].pixelOffset + 'px, 0)';
+					plugin.el.style.WebkitTransform = 'translate3d(' + offsetLeft + 'px, ' + plugin[slideType].pixelOffset + 'px, 0)';
 				}	
 			
 			}
@@ -205,11 +204,11 @@
 				if (slideType === "horizontal") {
 					var transitionTime = plugin.getTransitionTime(downX, upX, downXtime, upXtime);
 					plugin.el.style['-webkit-transition-duration'] = transitionTime + 's'
-					plugin.el.style.WebkitTransform = 'translate3d(' + plugin[slideType].pixelOffset + 'px, ' + (offset.top-start_offset.top) + 'px, 0)';
+					plugin.el.style.WebkitTransform = 'translate3d(' + plugin[slideType].pixelOffset + 'px, ' + offsetTop + 'px, 0)';
 				} else {
 					var transitionTime = plugin.getTransitionTime(downY, upY, downYtime, upYtime);
 					plugin.el.style['-webkit-transition-duration'] = transitionTime + 's'
-  					plugin.el.style.WebkitTransform = 'translate3d(' + (offset.left - start_offset.left) + 'px, ' + plugin[slideType].pixelOffset + 'px, 0)';
+  					plugin.el.style.WebkitTransform = 'translate3d(' + offsetLeft + 'px, ' + plugin[slideType].pixelOffset + 'px, 0)';
 				}
 				
 			} else {
