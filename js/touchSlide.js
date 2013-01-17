@@ -8,10 +8,8 @@
         plugin.el = el;
 		plugin.$el = $(el);
 		
-		var sliding = 0;
-		var startClientX = 0;
-		var startClientY = 0;
-		var startPixelOffset = 0;
+		var sliding = startClientX = startClientY  = startPixelOffset = 0;
+
 		var $slide = plugin.$el.find('.slide');
 		var $row = plugin.$el.find('.row');
 		var slideWidth = $slide.width();
@@ -30,7 +28,6 @@
 		var slideType = "";
 		var offsetLeft = "";
 		var offsetTop = "";
-		var start_offset = plugin.$el.offset();
 		
 		var defaults = {
 
@@ -51,12 +48,15 @@
 		plugin.vertical.pixelOffset = plugin.vertical.currentSlide * -slideHeight;
 		plugin.horizontal.pixelOffset = plugin.horizontal.currentSlide * -slideWidth;
 		
-		
 		plugin.init = function () {
             plugin.options = $.extend({
             	vertical: false,
             	horizontal: true
             }, options);
+
+            $row.filter(".current-row").removeClass("current-row");
+            $slide.filter(".current").removeClass("current");
+		    $row.eq(plugin.vertical.currentSlide).addClass("current-row").find(".slide").eq(plugin.horizontal.currentSlide).addClass("current");
 
             plugin.setWidth();
 
@@ -86,24 +86,19 @@
 			plugin.$el.live('touchmove', plugin.slide);			
 			plugin.$el.live('touchend', plugin.slideEnd);
 
-			/*
 			plugin.$el.bind('webkitTransitionEnd', function(event){
 				event.stopPropagation();
 				if (event.target !== $(this)[0]) return;
+                
+                $row.filter(".current-row").removeClass("current-row");
+				$row.eq(plugin.vertical.currentSlide).addClass("current-row");
 
-				plugin.$el.find(".slide.current").removeClass("current");
-				plugin.$el.find(".current-row").find(".slide").eq(currentSlide).addClass("current");
+				$slide.filter(".current").removeClass("current");
+			    $row.filter(".current-row").find(".slide").eq(plugin.horizontal.currentSlide).addClass("current");
 
-				var slide = $(".current-row").find(".slide.current");
-
-				SignalBus.dispatch("slideTransitionCompleted", slide);
+				plugin.$el.trigger("touchSlideTransitionCompleted");
 			});
-			
 
-			if (!$("#slides-y").length) {
-				$el.trigger('webkitTransitionEnd');
-			}
-			*/
 		};
 		
 		plugin.slideStart = function(event) {
@@ -128,8 +123,8 @@
 
 			if (sliding == 0) {
 				sliding = 1;
-				offsetLeft = plugin.$el.offset().left - start_offset.left;
-				offsetTop = plugin.$el.offset().top - start_offset.top;
+				offsetLeft = plugin.$el.offset().left;
+				offsetTop = plugin.$el.offset().top;
 				startClientX = event.clientX;
 				startClientY = event.clientY;
 			}	
