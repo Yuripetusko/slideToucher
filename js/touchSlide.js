@@ -101,9 +101,9 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
         };
 
         plugin.bindEvents = function () {
-            plugin.$el.live('touchstart', plugin.slideStart);
-            plugin.$el.live('touchmove', plugin.slide);
-            plugin.$el.live('touchend', plugin.slideEnd);
+            plugin.$el.on('touchstart', plugin.slideStart);
+            plugin.$el.on('touchmove', plugin.slide);
+            plugin.$el.on('touchend', plugin.slideEnd);
 
             plugin.$el.bind('webkitTransitionEnd', function (event) {
                 event.stopPropagation();
