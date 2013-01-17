@@ -20,3 +20,12 @@ html, body {
 	margin-top:-43px;
 	text-align:center;
 }
+
+#debug {
+	width:200px;
+	height:60px;
+	background:white;
+	position:absolute;
+	left:10px;
+	top:10px;
+}
