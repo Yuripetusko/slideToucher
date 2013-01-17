@@ -65,14 +65,14 @@
 
         plugin.getTransitionTime = function (downPos, upPos, downPosTime, upPosTime, dir) {
             /*
-			calculates the transition time from the speed of the swipe, ceiling of 1s
-			*/
+            	calculates the transition time from the speed of the swipe, ceiling of 1s
+            */
             var distance_delta = Math.abs(downPos - upPos);
             var time_delta = upPosTime - downPosTime;
             var transition_time = 1 / (distance_delta / time_delta);
             //Let's make transition speed based on screen size, giving 1024x768 screen a max 1ms speed 
             var screenSizeDelta = dir === "Y" ? slideHeight / 768 : slideWidth / 1024;
-            return Math.min(transition_time * screenSizeDelta, screenSizeDelta);
+            return Math.min(transition_time * screenSizeDelta, screenSizeDelta) / 2;
         };
 
         plugin.setWidth = function () {
@@ -103,7 +103,7 @@
 
         plugin.slideStart = function (event) {
             /*
-			Register position on touch start
+            	Register position on touch start
 			*/
             if (event.originalEvent.touches) {
                 plugin.$el.css({
@@ -132,7 +132,7 @@
 
         plugin.slide = function (event) {
             /*
-			Drag slide on touchmove
+            	Drag slide on touchmove
 			*/
             event.preventDefault();
             if (event.originalEvent.touches) {
@@ -189,7 +189,7 @@
 
         plugin.slideEnd = function (event) {
             /*
-			Finish slide transition on touchend
+            	Finish slide transition on touchend
 			*/
             if (sliding == 2) {
                 sliding = 0;
