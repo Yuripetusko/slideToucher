@@ -28,6 +28,8 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
 
         var sliding = startClientX = startClientY = startPixelOffset = 0;
 
+        var cachedElStyle = plugin.el.style;
+
         var $slide = plugin.$el.find('.slide');
         var $row = plugin.$el.find('.row');
         var slideWidth = $slide.width();
@@ -198,9 +200,9 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
                 plugin[slideType].pixelOffset = startPixelOffset + deltaSlide / touchPixelRatio;
 
                 if (slideType === "horizontal") {
-                    plugin.el.style.WebkitTransform = 'translate3d(' + plugin[slideType].pixelOffset + 'px, ' + offsetTop + 'px, 0)';
+                    cachedElStyle.WebkitTransform = 'translate3d(' + plugin[slideType].pixelOffset + 'px, ' + offsetTop + 'px, 0)';
                 } else if (slideType === "vertical") {
-                    plugin.el.style.WebkitTransform = 'translate3d(' + offsetLeft + 'px, ' + plugin[slideType].pixelOffset + 'px, 0)';
+                    cachedElStyle.WebkitTransform = 'translate3d(' + offsetLeft + 'px, ' + plugin[slideType].pixelOffset + 'px, 0)';
                 }
 
             }
@@ -219,12 +221,12 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
 
                 if (slideType === "horizontal") {
                     var transitionTime = plugin.getTransitionTime(downX, upX, downXtime, upXtime, "X");
-                    plugin.el.style['-webkit-transition-duration'] = transitionTime + 's'
-                    plugin.el.style.WebkitTransform = 'translate3d(' + plugin[slideType].pixelOffset + 'px, ' + offsetTop + 'px, 0)';
+                    cachedElStyle['-webkit-transition-duration'] = transitionTime + 's'
+                    cachedElStyle.WebkitTransform = 'translate3d(' + plugin[slideType].pixelOffset + 'px, ' + offsetTop + 'px, 0)';
                 } else {
                     var transitionTime = plugin.getTransitionTime(downY, upY, downYtime, upYtime, "Y");
-                    plugin.el.style['-webkit-transition-duration'] = transitionTime + 's'
-                    plugin.el.style.WebkitTransform = 'translate3d(' + offsetLeft + 'px, ' + plugin[slideType].pixelOffset + 'px, 0)';
+                    cachedElStyle['-webkit-transition-duration'] = transitionTime + 's'
+                    cachedElStyle.WebkitTransform = 'translate3d(' + offsetLeft + 'px, ' + plugin[slideType].pixelOffset + 'px, 0)';
                 }
 
             } else {
