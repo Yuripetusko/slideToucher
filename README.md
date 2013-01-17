@@ -2,7 +2,7 @@ Touch screen jquery slide plugin with vertical as well as horizontal sliding sup
 
 Demo here: <a target="_blank" href="http://yuripetusko.github.com/touchSlide/">http://yuripetusko.github.com/touchSlide/</a>
 
-Plugin is looseley based on tutorial by Martin Kool https://twitter.com/mrtnkl
+Plugin is loosely based on tutorial by Martin Kool https://twitter.com/mrtnkl
 http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css/
 
 /***********

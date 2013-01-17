@@ -11,6 +11,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+Plugin is loosely based on tutorial by Martin Kool https://twitter.com/mrtnkl
+http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css/
+
 ************/
 
 // the semi-colon before function invocation is a safety net against concatenated
@@ -98,9 +101,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
         };
 
         plugin.bindEvents = function () {
-            plugin.$el.live('touchstart', plugin.slideStart);
-            plugin.$el.live('touchmove', plugin.slide);
-            plugin.$el.live('touchend', plugin.slideEnd);
+            plugin.$el.on('touchstart', plugin.slideStart);
+            plugin.$el.on('touchmove', plugin.slide);
+            plugin.$el.on('touchend', plugin.slideEnd);
 
             plugin.$el.bind('webkitTransitionEnd', function (event) {
                 event.stopPropagation();
