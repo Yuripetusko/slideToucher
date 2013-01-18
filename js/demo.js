@@ -9,5 +9,8 @@ $("document").ready(function(){
 	    hue += 222.5;
 	});
 	
-	$("#slides").touchSlide();
+	$("#slides").touchSlide({
+		vertical: true,
+		horizontal: true
+	});
 });

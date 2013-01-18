@@ -4,7 +4,6 @@
 	-webkit-transform: translate3d(0, 0, 0);
 	-webkit-transition-timing-function: linear;
 	-webkit-backface-visibility: hidden;
-	
 	-webkit-transform-style: preserve-3d;
 }
 

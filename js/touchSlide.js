@@ -21,6 +21,9 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
 ;(function ($, window, document, undefined) {
 
     function touchSlide(el, options) {
+        /*
+            Defiantly too many variables here. Need to find a way to reduce 'em
+        */
         var plugin = this;
 
         plugin.el = el;
@@ -28,8 +31,14 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
 
         var sliding = startClientX = startClientY = startPixelOffset = 0;
 
+        /*
+            should I come up with better name for this var?
+        */
         var cachedElStyle = plugin.el.style;
 
+        /*
+            Should I use DOM querySelectorAll? All mobile phone browsers should be capable of it now...
+        */
         var $slide = plugin.$el.find('.slide');
         var $row = plugin.$el.find('.row');
         var slideWidth = $slide.width();
@@ -46,11 +55,17 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
         var upYtime = "";
 
         var slideType = "";
+        /*
+            There is currently a bug if body (or nay other parent) has margin or padding.
+            Then initial offset is wrong and position of slide increases with every slide.
+            Potential fix that I need to look into is substracting parent's offset from document offset
+            http://stackoverflow.com/questions/5389527/how-to-get-offset-relative-to-a-specific-parent
+        */
         var offsetLeft = "";
         var offsetTop = "";
 
         var defaults = {
-
+            /* Anyone in here? */
         }
 
         plugin.vertical = {
@@ -74,6 +89,9 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
                 horizontal: true
             }, options);
 
+            /*
+                Need to come up with less expensive selectors.
+            */
             $row.filter(".current-row").removeClass("current-row");
             $slide.filter(".current").removeClass("current");
             $row.eq(plugin.vertical.currentSlide).addClass("current-row").find(".slide").eq(plugin.horizontal.currentSlide).addClass("current");
@@ -85,18 +103,22 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
 
         plugin.getTransitionTime = function (downPos, upPos, downPosTime, upPosTime, dir) {
             /*
-            	calculates the transition time from the speed of the swipe, ceiling of 1s
+            	calculates the transition time from the speed of the swipe.
+                THIS IS BAD. I DON'T THINK THAT I KNOW WHAT i'M DOIJNG HERE. NEED TO LOOK INTO IT.
             */
             var distance_delta = Math.abs(downPos - upPos);
             var time_delta = upPosTime - downPosTime;
             var transition_time = 1 / (distance_delta / time_delta);
             //Let's make transition speed based on screen size, giving 1024x768 screen a max 1ms speed 
             var screenSizeDelta = dir === "Y" ? slideHeight / 768 : slideWidth / 1024;
-            //$("#debug").html(Math.min(transition_time * screenSizeDelta, screenSizeDelta) / 3);
             return Math.min(transition_time * screenSizeDelta, screenSizeDelta) / 3;
         };
 
         plugin.setWidth = function () {
+            /*
+                Setting with of parent container to number of slides in first row * first slide width.
+                This will not work very well if other rows has  different number of slides.
+            */
             var slideWidth = $slide.eq(0).outerWidth(true);
             plugin.$el.css("width", slideWidth * $row.eq(0).find(".slide").length);
             $slide.css("width", slideWidth);
@@ -111,6 +133,9 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
                 event.stopPropagation();
                 if (event.target !== $(this)[0]) return;
 
+                /*
+                    Need to come up with less expensive selectors.
+                */
                 $row.filter(".current-row").removeClass("current-row");
                 $row.eq(plugin.vertical.currentSlide).addClass("current-row");
 
@@ -127,9 +152,7 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
             	Register position on touch start
 			*/
             if (event.originalEvent.touches) {
-                plugin.$el.css({
-                    '-webkit-transition-duration': ''
-                });
+                cachedElStyle['-webkit-transition-duration'] = "";
 
                 downX = parseInt(event.originalEvent.touches[0].pageX, 10);
                 upX = downX;
@@ -157,11 +180,12 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
 			*/
             event.preventDefault();
             if (event.originalEvent.touches) {
-                upX = parseInt(event.originalEvent.touches[0].pageX, 10);
-                upXtime = new Date().getTime();
 
-                upY = parseInt(event.originalEvent.touches[0].pageY, 10);
-                upYtime = new Date().getTime();
+                upX = event.originalEvent.touches[0].pageX;
+
+                upY = event.originalEvent.touches[0].pageY;
+
+                upXtime = upYtime = new Date().getTime();
 
                 event = event.originalEvent.touches[0];
             }
@@ -169,12 +193,12 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
             var deltaSlideX = event.clientX - startClientX;
             var deltaSlideY = event.clientY - startClientY;
 
-            if (sliding == 1 && deltaSlideX != 0 && Math.abs(deltaSlideX) > 15) {
+            if (sliding == 1 && deltaSlideX != 0 && Math.abs(deltaSlideX) > 15 && plugin.options.horizontal) {
                 sliding = 2;
                 slideType = "horizontal";
 
                 startPixelOffset = plugin.horizontal.pixelOffset;
-            } else if (sliding == 1 && deltaSlideY != 0 && Math.abs(deltaSlideY) > 15) {
+            } else if (sliding == 1 && deltaSlideY != 0 && Math.abs(deltaSlideY) > 15 && plugin.options.vertical) {
                 sliding = 2;
                 slideType = "vertical";
 
@@ -228,7 +252,6 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
                     cachedElStyle['-webkit-transition-duration'] = transitionTime + 's'
                     cachedElStyle.WebkitTransform = 'translate3d(' + offsetLeft + 'px, ' + plugin[slideType].pixelOffset + 'px, 0)';
                 }
-
             } else {
                 sliding = 0;
             }
@@ -238,6 +261,9 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
     }
 
     $.fn.touchSlide = function (options) {
+        /*
+            Just incase I will need to expose some methods to public in future I am doing it this way:
+        */    
         return this.each(function () {
             if (!$.data(this, "plugin_touchSlide")) {
                 $.data(this, "plugin_touchSlide", new touchSlide(this, options));
