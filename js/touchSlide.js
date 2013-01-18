@@ -41,8 +41,9 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
         */
         var $slide = plugin.$el.find('.slide');
         var $row = plugin.$el.find('.row');
-        var slideWidth = $slide.width();
-        var slideHeight = $row.height();
+
+        var slideWidth = "";
+        var slideHeight = "";
 
         var downX = "";
         var upX = "";
@@ -68,26 +69,17 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
             /* Anyone in here? */
         }
 
-        plugin.vertical = {
-            slideCount: $row.length,
-            slideSize: slideHeight,
-            currentSlide: Math.round(Math.abs(plugin.$el.position().top / slideHeight))
-        }
-
-        plugin.horizontal = {
-            slideCount: $row.eq(0).find('.slide').length,
-            slideSize: slideWidth,
-            currentSlide: Math.round(Math.abs(plugin.$el.position().left / slideWidth))
-        }
-
-        plugin.vertical.pixelOffset = plugin.vertical.currentSlide * -slideHeight;
-        plugin.horizontal.pixelOffset = plugin.horizontal.currentSlide * -slideWidth;
-
         plugin.init = function () {
             plugin.options = $.extend({
                 vertical: false,
                 horizontal: true
             }, options);
+
+            plugin.setWidth();
+
+            plugin.recordDimensions();
+
+            plugin.bindEvents();
 
             /*
                 Need to come up with less expensive selectors.
@@ -95,10 +87,6 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
             $row.filter(".current-row").removeClass("current-row");
             $slide.filter(".current").removeClass("current");
             $row.eq(plugin.vertical.currentSlide).addClass("current-row").find(".slide").eq(plugin.horizontal.currentSlide).addClass("current");
-
-            plugin.setWidth();
-
-            plugin.bindEvents();
         };
 
         plugin.getTransitionTime = function (downPos, upPos, downPosTime, upPosTime, dir) {
@@ -122,6 +110,27 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
             var slideWidth = $slide.eq(0).outerWidth(true);
             plugin.$el.css("width", slideWidth * $row.eq(0).find(".slide").length);
             $slide.css("width", slideWidth);
+            
+        };
+
+        plugin.recordDimensions = function(){
+            slideWidth = $slide.width();
+            slideHeight = $row.height();
+
+            plugin.vertical = {
+                slideCount: $row.length,
+                slideSize: slideHeight,
+                currentSlide: Math.round(Math.abs(plugin.$el.position().top / slideHeight))
+            }
+
+            plugin.horizontal = {
+                slideCount: $row.eq(0).find('.slide').length,
+                slideSize: slideWidth,
+                currentSlide: Math.round(Math.abs(plugin.$el.position().left / slideWidth))
+            }
+
+            plugin.vertical.pixelOffset = plugin.vertical.currentSlide * -slideHeight;
+            plugin.horizontal.pixelOffset = plugin.horizontal.currentSlide * -slideWidth;
         };
 
         plugin.bindEvents = function () {
