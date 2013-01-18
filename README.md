@@ -1,11 +1,55 @@
+# jQuery TouchSlide plugin
+
+## About
+
 Touch screen jquery slide plugin with vertical as well as horizontal sliding support
 
-Demo here: <a target="_blank" href="http://yuripetusko.github.com/touchSlide/">http://yuripetusko.github.com/touchSlide/</a>
+### Just run as:
+
+```
+	$("#slides").touchSlide({
+		vertical: true,
+		horizontal: true
+	});
+```
+
+### Required markup:
+
+Currently it is relying on **.slide** and **.row** classes. But I will make it optional soon. Elements don't have to be as mine
+
+```
+<section id="slides">
+		<div class="row">
+			<article class="slide"></article>
+			<article class="slide"></article>
+			<article class="slide"></article>
+			<article class="slide"></article>
+		</div>	
+		<div class="row">
+			<article class="slide"></article>
+			<article class="slide"></article>
+			<article class="slide"></article>
+			<article class="slide"></article>
+		</div>
+		<div class="row">
+			<article class="slide"></article>
+			<article class="slide"></article>
+			<article class="slide"></article>
+			<article class="slide"></article>
+		</div>		
+	</section>
+```	
+
+## Demo
+
+<a target="_blank" href="http://yuripetusko.github.com/touchSlide/">http://yuripetusko.github.com/touchSlide/</a>
+
+## Credits
 
 Plugin is loosely based on tutorial by Martin Kool https://twitter.com/mrtnkl
 http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css/
 
-/***********
+## Licence
 
 The MIT License (MIT)
 Copyright (c) 2013 Jurijs Petusko | Yuri Petusko | yuripetusko@gmail.com
@@ -18,5 +62,3 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-*********/

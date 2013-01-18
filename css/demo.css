@@ -6,6 +6,10 @@ html, body {
 
 .slide {
 	position:relative;
+	cursor:hand;
+  	cursor:grab;
+  	cursor:-moz-grab;
+  	cursor:-webkit-grab;
 }
 
 .slide span {
@@ -28,4 +32,41 @@ html, body {
 	position:absolute;
 	left:10px;
 	top:10px;
+}
+
+.arrow {
+	position:absolute;
+	z-index:2;
+	top: 10px;
+	background: url(../img/arrow.png) center no-repeat transparent;
+	width:64px;
+	height:64px;
+	-webkit-background-size:50%;
+}
+
+.arrow.top {
+	left:50%;
+	margin-left:-32px;
+	-webkit-transform: rotate(-90deg);
+}
+
+.arrow.left {
+	top:50%;
+	margin-top:-32px;
+	-webkit-transform: rotate(180deg);
+}
+
+.arrow.right {
+	left:100%;
+	margin-left:-74px;
+	top:50%;
+	margin-top:-32px;
+}
+
+.arrow.bottom {
+	top:100%;
+	margin-top:-74px;
+	left:50%;
+	margin-left:-32px;
+	-webkit-transform: rotate(90deg);
 }
