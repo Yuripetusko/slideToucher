@@ -15,7 +15,7 @@ Touch screen jquery slide plugin with vertical as well as horizontal sliding sup
 
 ### Required markup:
 
-Currently it is relying on **.class** and **.row** classes. But I will make it optional soon. Elements don't have to be as mine
+Currently it is relying on **.slide** and **.row** classes. But I will make it optional soon. Elements don't have to be as mine
 
 ```
 <section id="slides">
