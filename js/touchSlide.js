@@ -99,7 +99,7 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
             var transition_time = 1 / (distance_delta / time_delta);
             //Let's make transition speed based on screen size, giving 1024x768 screen a max 1ms speed 
             var screenSizeDelta = dir === "Y" ? slideHeight / 768 : slideWidth / 1024;
-            return Math.min(transition_time * screenSizeDelta, screenSizeDelta) / 3;
+            return Math.min(transition_time * screenSizeDelta, screenSizeDelta) / 2;
         };
 
         plugin.setWidth = function () {

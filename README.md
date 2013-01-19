@@ -2,7 +2,9 @@
 
 ## About
 
-Touch screen jquery slide plugin with vertical as well as horizontal sliding support
+Touch screen jquery slide plugin with vertical as well as horizontal sliding support.
+
+Very early stage. Still yet to support non webkit browsers. Will borrow some code snippetsd for that from iScroll plugin ;) :P
 
 ### Just run as:
 
