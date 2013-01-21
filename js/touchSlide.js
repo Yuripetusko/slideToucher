@@ -11,8 +11,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+Credits:
 Plugin is loosely based on tutorial by Martin Kool https://twitter.com/mrtnkl
 http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css/
+
+Very clever way iScroll plugin works out your vendor prefix.
+Credits to Matteo Spinelli, http://cubiq.org
 
 ************/
 
@@ -75,6 +79,8 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
                 horizontal: true
             }, options);
 
+            plugin.defineVendorPrefix();
+
             plugin.setWidth();
 
             plugin.recordDimensions();
@@ -100,6 +106,42 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
             //Let's make transition speed based on screen size, giving 1024x768 screen a max 1ms speed 
             var screenSizeDelta = dir === "Y" ? slideHeight / 768 : slideWidth / 1024;
             return Math.min(transition_time * screenSizeDelta, screenSizeDelta) / 3;
+        };
+
+        plugin.defineVendorPrefix = function() {
+            /*
+                This is very clever way iScroll plugin works out your vendor prefix.
+                Credits to Matteo Spinelli, http://cubiq.org
+            */
+            var dummyStyle = document.createElement('div').style;
+            plugin.vendor = (function () {
+                var vendors = 't,webkitT,MozT,msT,OT'.split(','),
+                t,
+                i = 0,
+                l = vendors.length;
+
+                for ( ; i < l; i++ ) {
+                    t = vendors[i] + 'ransform';
+                    if ( t in dummyStyle ) {
+                        return vendors[i].substr(0, vendors[i].length - 1);
+                    }
+                }
+
+                return false;
+            })();
+            plugin.cssVendor = plugin.vendor ? '-' + plugin.vendor.toLowerCase() + '-' : '';
+
+            // Style properties
+            plugin.transform = plugin.prefixStyle('transform');
+            plugin.transitionDuration = plugin.prefixStyle('transitionDuration');
+            plugin.transitionEnd = plugin.prefixStyle('TransitionEnd');
+        };
+
+        plugin.prefixStyle = function(style) {
+            if ( plugin.vendor === '' ) return style;
+
+            style = style.charAt(0).toUpperCase() + style.substr(1);
+            return plugin.vendor + style;
         };
 
         plugin.setWidth = function () {
@@ -138,7 +180,7 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
             plugin.$el.on('touchmove', plugin.slide);
             plugin.$el.on('touchend', plugin.slideEnd);
 
-            plugin.$el.bind('webkitTransitionEnd', function (event) {
+            plugin.$el.bind(plugin.transitionEnd, function (event) {
                 event.stopPropagation();
                 if (event.target !== $(this)[0]) return;
 
@@ -161,7 +203,7 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
             	Register position on touch start
 			*/
             if (event.originalEvent.touches) {
-                cachedElStyle['-webkit-transition-duration'] = "";
+                cachedElStyle[plugin.transitionDuration] = "";
 
                 downX = parseInt(event.originalEvent.touches[0].pageX, 10);
                 upX = downX;
@@ -233,9 +275,9 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
                 plugin[slideType].pixelOffset = startPixelOffset + deltaSlide / touchPixelRatio;
 
                 if (slideType === "horizontal") {
-                    cachedElStyle.WebkitTransform = 'translate3d(' + plugin[slideType].pixelOffset + 'px, ' + offsetTop + 'px, 0)';
+                    cachedElStyle[plugin.transform] = 'translate3d(' + plugin[slideType].pixelOffset + 'px, ' + offsetTop + 'px, 0)';
                 } else if (slideType === "vertical") {
-                    cachedElStyle.WebkitTransform = 'translate3d(' + offsetLeft + 'px, ' + plugin[slideType].pixelOffset + 'px, 0)';
+                    cachedElStyle[plugin.transform] = 'translate3d(' + offsetLeft + 'px, ' + plugin[slideType].pixelOffset + 'px, 0)';
                 }
 
             }
@@ -254,12 +296,12 @@ http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css
 
                 if (slideType === "horizontal") {
                     var transitionTime = plugin.getTransitionTime(downX, upX, downXtime, upXtime, "X");
-                    cachedElStyle['-webkit-transition-duration'] = transitionTime + 's'
-                    cachedElStyle.WebkitTransform = 'translate3d(' + plugin[slideType].pixelOffset + 'px, ' + offsetTop + 'px, 0)';
+                    cachedElStyle[plugin.transitionDuration] = transitionTime + 's'
+                    cachedElStyle[plugin.transform] = 'translate3d(' + plugin[slideType].pixelOffset + 'px, ' + offsetTop + 'px, 0)';
                 } else {
                     var transitionTime = plugin.getTransitionTime(downY, upY, downYtime, upYtime, "Y");
-                    cachedElStyle['-webkit-transition-duration'] = transitionTime + 's'
-                    cachedElStyle.WebkitTransform = 'translate3d(' + offsetLeft + 'px, ' + plugin[slideType].pixelOffset + 'px, 0)';
+                    cachedElStyle[plugin.transitionDuration] = transitionTime + 's'
+                    cachedElStyle[plugin.transform] = 'translate3d(' + offsetLeft + 'px, ' + plugin[slideType].pixelOffset + 'px, 0)';
                 }
             } else {
                 sliding = 0;
