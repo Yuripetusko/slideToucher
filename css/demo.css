@@ -42,18 +42,24 @@ html, body {
 	width:64px;
 	height:64px;
 	-webkit-background-size:50%;
+	-moz-background-size:50%;
+	background-size:50%;
 }
 
 .arrow.top {
 	left:50%;
 	margin-left:-32px;
 	-webkit-transform: rotate(-90deg);
+	-moz-transform: rotate(-90deg);
+	transform: rotate(-90deg);
 }
 
 .arrow.left {
 	top:50%;
 	margin-top:-32px;
 	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	transform: rotate(180deg);
 }
 
 .arrow.right {
@@ -69,4 +75,6 @@ html, body {
 	left:50%;
 	margin-left:-32px;
 	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	transform: rotate(90deg);
 }

@@ -51,6 +51,9 @@ Currently it is relying on **.slide** and **.row** classes. But I will make it o
 Plugin is loosely based on tutorial by Martin Kool https://twitter.com/mrtnkl
 http://mobile.smashingmagazine.com/2012/06/21/play-with-hardware-accelerated-css/
 
+Also borrowed very clever way iScroll plugin works out your vendor prefix.
+Credits to Matteo Spinelli, http://cubiq.org
+
 ## Licence
 
 The MIT License (MIT)
