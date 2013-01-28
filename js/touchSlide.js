@@ -46,7 +46,7 @@ Credits to Matteo Spinelli, http://cubiq.org
         var $slide = plugin.$el.find('.slide');
         var $row = plugin.$el.find('.row');
 
-        var slideWidth = "";
+        var slideWidth = $slide.eq(0).width();
         var slideHeight = "";
 
         var downX = "";
@@ -78,7 +78,7 @@ Credits to Matteo Spinelli, http://cubiq.org
             plugin.options = $.extend({
                 vertical: false,
                 horizontal: true,
-                slideWidth: $slide.eq(0).outerWidth(true),
+                sliderWidth: $slide.eq(0).outerWidth(true),
                 slideTreshold: 15
             }, options);
 
@@ -107,7 +107,7 @@ Credits to Matteo Spinelli, http://cubiq.org
             var time_delta = upPosTime - downPosTime;
             var transition_time = 1 / (distance_delta / time_delta);
             //Let's make transition speed based on screen size, giving 1024x768 screen a max 1ms speed 
-            var screenSizeDelta = dir === "Y" ? slideHeight / 768 : slideWidth / 1024;
+            var screenSizeDelta = dir === "Y" ? slideHeight / 768 : sliderWidth / 1024;
 
             return Math.max(Math.min(transition_time * screenSizeDelta, screenSizeDelta) / 2, 0.1);
         };
@@ -153,13 +153,13 @@ Credits to Matteo Spinelli, http://cubiq.org
                 Setting with of parent container to number of slides in first row * first slide width.
                 This will not work very well if other rows has  different number of slides.
             */
-            plugin.$el.css("width", plugin.options.slideWidth  * $row.eq(0).find(".slide").length);
-            //$slide.css("width", plugin.options.slideWidth);
+            plugin.$el.css("width", plugin.options.sliderWidth  * $row.eq(0).find(".slide").length);
+            $slide.css("width", slideWidth);
             
         };
 
         plugin.recordDimensions = function(){
-            slideWidth = plugin.options.slideWidth;
+            sliderWidth = plugin.options.sliderWidth;
             slideHeight = $row.height();
 
             plugin.vertical = {
@@ -170,12 +170,12 @@ Credits to Matteo Spinelli, http://cubiq.org
 
             plugin.horizontal = {
                 slideCount: $row.eq(0).find('.slide').length,
-                slideSize: slideWidth,
-                currentSlide: Math.round(Math.abs(plugin.$el.position().left / slideWidth))
+                slideSize: sliderWidth,
+                currentSlide: Math.round(Math.abs(plugin.$el.position().left / sliderWidth))
             }
 
             plugin.vertical.pixelOffset = plugin.vertical.currentSlide * -slideHeight;
-            plugin.horizontal.pixelOffset = plugin.horizontal.currentSlide * -slideWidth;
+            plugin.horizontal.pixelOffset = plugin.horizontal.currentSlide * -sliderWidth;
         };
 
         plugin.bindEvents = function () {
