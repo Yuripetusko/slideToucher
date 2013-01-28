@@ -66,6 +66,7 @@ Credits to Matteo Spinelli, http://cubiq.org
             Potential fix that I need to look into is substracting parent's offset from document offset
             http://stackoverflow.com/questions/5389527/how-to-get-offset-relative-to-a-specific-parent
         */
+
         var offsetLeft = "";
         var offsetTop = "";
 
@@ -76,7 +77,9 @@ Credits to Matteo Spinelli, http://cubiq.org
         plugin.init = function () {
             plugin.options = $.extend({
                 vertical: false,
-                horizontal: true
+                horizontal: true,
+                slideWidth: $slide.eq(0).outerWidth(true),
+                slideTreshold: 15
             }, options);
 
             plugin.defineVendorPrefix();
@@ -97,7 +100,7 @@ Credits to Matteo Spinelli, http://cubiq.org
 
         plugin.getTransitionTime = function (downPos, upPos, downPosTime, upPosTime, dir) {
             /*
-            	calculates the transition time from the speed of the swipe.
+                calculates the transition time from the speed of the swipe.
                 THIS IS BAD. I DON'T THINK THAT I KNOW WHAT i'M DOIJNG HERE. NEED TO LOOK INTO IT.
             */
             var distance_delta = Math.abs(downPos - upPos);
@@ -105,7 +108,8 @@ Credits to Matteo Spinelli, http://cubiq.org
             var transition_time = 1 / (distance_delta / time_delta);
             //Let's make transition speed based on screen size, giving 1024x768 screen a max 1ms speed 
             var screenSizeDelta = dir === "Y" ? slideHeight / 768 : slideWidth / 1024;
-            return Math.min(transition_time * screenSizeDelta, screenSizeDelta) / 2;
+
+            return Math.max(Math.min(transition_time * screenSizeDelta, screenSizeDelta) / 2, 0.1);
         };
 
         plugin.defineVendorPrefix = function() {
@@ -149,14 +153,13 @@ Credits to Matteo Spinelli, http://cubiq.org
                 Setting with of parent container to number of slides in first row * first slide width.
                 This will not work very well if other rows has  different number of slides.
             */
-            var slideWidth = $slide.eq(0).outerWidth(true);
-            plugin.$el.css("width", slideWidth * $row.eq(0).find(".slide").length);
-            $slide.css("width", slideWidth);
+            plugin.$el.css("width", plugin.options.slideWidth  * $row.eq(0).find(".slide").length);
+            //$slide.css("width", plugin.options.slideWidth);
             
         };
 
         plugin.recordDimensions = function(){
-            slideWidth = $slide.width();
+            slideWidth = plugin.options.slideWidth;
             slideHeight = $row.height();
 
             plugin.vertical = {
@@ -196,12 +199,13 @@ Credits to Matteo Spinelli, http://cubiq.org
                 plugin.$el.trigger("touchSlideTransitionCompleted");
             });
 
+            plugin.$el.trigger(plugin.transitionEnd);
         };
 
         plugin.slideStart = function (event) {
             /*
-            	Register position on touch start
-			*/
+                Register position on touch start
+            */
             if (event.originalEvent.touches) {
                 cachedElStyle[plugin.transitionDuration] = "";
 
@@ -218,8 +222,8 @@ Credits to Matteo Spinelli, http://cubiq.org
 
             if (sliding == 0) {
                 sliding = 1;
-                offsetLeft = plugin.$el.offset().left;
-                offsetTop = plugin.$el.offset().top;
+                offsetLeft = plugin.$el.position().left;
+                offsetTop = plugin.$el.position().top;
                 startClientX = event.clientX;
                 startClientY = event.clientY;
             }
@@ -227,8 +231,8 @@ Credits to Matteo Spinelli, http://cubiq.org
 
         plugin.slide = function (event) {
             /*
-            	Drag slide on touchmove
-			*/
+                Drag slide on touchmove
+            */
             event.preventDefault();
             if (event.originalEvent.touches) {
 
@@ -244,12 +248,12 @@ Credits to Matteo Spinelli, http://cubiq.org
             var deltaSlideX = event.clientX - startClientX;
             var deltaSlideY = event.clientY - startClientY;
 
-            if (sliding == 1 && deltaSlideX != 0 && Math.abs(deltaSlideX) > 15 && plugin.options.horizontal) {
+            if (sliding == 1 && deltaSlideX != 0 && Math.abs(deltaSlideX) > plugin.options.slideTreshold && plugin.options.horizontal) {
                 sliding = 2;
                 slideType = "horizontal";
 
                 startPixelOffset = plugin.horizontal.pixelOffset;
-            } else if (sliding == 1 && deltaSlideY != 0 && Math.abs(deltaSlideY) > 15 && plugin.options.vertical) {
+            } else if (sliding == 1 && deltaSlideY != 0 && Math.abs(deltaSlideY) > plugin.options.slideTreshold && plugin.options.vertical) {
                 sliding = 2;
                 slideType = "vertical";
 
@@ -265,6 +269,8 @@ Credits to Matteo Spinelli, http://cubiq.org
                     startClienPos = startClientY,
                     eventPos = event.clientY;
             }
+
+
 
             if (sliding == 2) {
                 var touchPixelRatio = 1;
@@ -285,8 +291,8 @@ Credits to Matteo Spinelli, http://cubiq.org
 
         plugin.slideEnd = function (event) {
             /*
-            	Finish slide transition on touchend
-			*/
+                Finish slide transition on touchend
+            */
             if (sliding == 2) {
                 sliding = 0;
                 plugin[slideType].currentSlide = plugin[slideType].pixelOffset < startPixelOffset ? plugin[slideType].currentSlide + 1 : plugin[slideType].currentSlide - 1;
@@ -311,14 +317,9 @@ Credits to Matteo Spinelli, http://cubiq.org
         plugin.init();
     }
 
-    $.fn.touchSlide = function (options) {
-        /*
-            Just incase I will need to expose some methods to public in future I am doing it this way:
-        */    
+    $.fn.touchSlide = function (options) {  
         return this.each(function () {
-            if (!$.data(this, "plugin_touchSlide")) {
-                $.data(this, "plugin_touchSlide", new touchSlide(this, options));
-            }
+            new touchSlide(this, options)
         });
     };
 
