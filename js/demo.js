@@ -15,7 +15,7 @@ $("document").ready(function(){
 		$(".arrow").fadeOut(900);
 	}, 3000);
 	
-	$("#slides").toucher({
+	$("#slides").slideToucher({
 		vertical: true,
 		horizontal: true
 	});
