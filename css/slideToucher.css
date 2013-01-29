@@ -1,0 +1,32 @@
+#slides {
+	width:100%;
+	height:100%;
+	-webkit-transform: translate3d(0, 0, 0);
+	-webkit-transition-timing-function: linear;
+	-webkit-backface-visibility: hidden;
+	-webkit-transform-style: preserve-3d;
+
+	-moz-transform: translate3d(0, 0, 0);
+	-moz-transition-timing-function: linear;
+	-moz-backface-visibility: hidden;
+	-moz-transform-style: preserve-3d;
+
+	transform: translate3d(0, 0, 0);
+	transition-timing-function: linear;
+	backface-visibility: hidden;
+	transform-style: preserve-3d;
+}
+
+.slide {
+	width:100%;
+	height:100%;
+	display:inline-block;
+	float:left;
+	vertical-align:top;
+}
+
+.row {
+	display:block;
+	width:100%;
+	height:100%;
+}
