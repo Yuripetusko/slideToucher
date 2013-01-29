@@ -1,13 +1,13 @@
-# jQuery TouchSlide plugin
+# jQuery Toucher plugin
 
 ## About
 
-Touch screen jquery slide plugin with vertical as well as horizontal sliding support.
+Touch screen jQuery slide/swipe plugin with vertical as well as horizontal swipe support.
 
 ### Just run as:
 
 ```
-	$("#slides").touchSlide({
+	$("#slides").toucher({
 		vertical: true,
 		horizontal: true
 	});
@@ -42,7 +42,7 @@ Currently it is relying on **.slide** and **.row** classes. But I will make it o
 
 ## Demo
 
-<a target="_blank" href="http://yuripetusko.github.com/touchSlide/">http://yuripetusko.github.com/touchSlide/</a>
+<a target="_blank" href="http://yuripetusko.github.com/Toucher/">http://yuripetusko.github.com/Toucher/</a>
 
 ## Credits
 

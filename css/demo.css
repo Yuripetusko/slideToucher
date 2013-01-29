@@ -4,6 +4,40 @@ html, body {
 	margin:0;
 }
 
+body {
+	padding-top:42px;
+}
+
+header {
+	text-align:center;
+	color:white;
+	font-size:24px;
+	line-height:40px;
+	font-family: 'Rancho', cursive;
+	
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#545250), color-stop(100%,#454341)),
+				-webkit-linear-gradient(top, #545250 0%,#454341 100%);
+    position:fixed;
+    left:0px;
+	top:0px;
+    width:100%;
+    z-index:4;
+    height:40px;
+    border-top:1px solid #151515;
+    border-bottom:1px solid #151515;			
+}
+
+#wrapper {
+	display: block;
+    position:absolute;
+    height:auto;
+    bottom:0;
+    top:0;
+    left:0;
+    right:0;
+	margin-top:42px;
+}
+
 .slide {
 	position:relative;
 	cursor:hand;
@@ -48,6 +82,7 @@ html, body {
 
 .arrow.top {
 	left:50%;
+	top:52px;
 	margin-left:-32px;
 	-webkit-transform: rotate(-90deg);
 	-moz-transform: rotate(-90deg);

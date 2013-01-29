@@ -24,7 +24,7 @@ Credits to Matteo Spinelli, http://cubiq.org
 // scripts and/or other plugins which may not be closed properly.
 ;(function ($, window, document, undefined) {
 
-    function touchSlide(el, options) {
+    function toucher(el, options) {
         /*
             Defiantly too many variables here. Need to find a way to reduce 'em
         */
@@ -190,7 +190,7 @@ Credits to Matteo Spinelli, http://cubiq.org
                 $slide.filter(".current").removeClass("current");
                 $row.filter(".current-row").find(".slide").eq(plugin.horizontal.currentSlide).addClass("current");
 
-                plugin.$el.trigger("touchSlideTransitionCompleted");
+                plugin.$el.trigger("toucherTransitionCompleted");
             });
 
             plugin.$el.trigger(plugin.transitionEnd);
@@ -309,10 +309,10 @@ Credits to Matteo Spinelli, http://cubiq.org
         plugin.init();
     }
 
-    $.fn.touchSlide = function (options) {  
+    $.fn.toucher = function (options) {  
         /* At the moment I am rebuilding plugin from scratch if called twice, need to create destroy and refresh methods for more flexibility */
         return this.each(function () {
-            new touchSlide(this, options)
+            new toucher(this, options)
         });
     };
 
