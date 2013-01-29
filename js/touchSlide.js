@@ -60,12 +60,6 @@ Credits to Matteo Spinelli, http://cubiq.org
         var upYtime = "";
 
         var slideType = "";
-        /*
-            There is currently a bug if body (or nay other parent) has margin or padding.
-            Then initial offset is wrong and position of slide increases with every slide.
-            Potential fix that I need to look into is substracting parent's offset from document offset
-            http://stackoverflow.com/questions/5389527/how-to-get-offset-relative-to-a-specific-parent
-        */
 
         var offsetLeft = "";
         var offsetTop = "";
@@ -270,8 +264,6 @@ Credits to Matteo Spinelli, http://cubiq.org
                     eventPos = event.clientY;
             }
 
-
-
             if (sliding == 2) {
                 var touchPixelRatio = 1;
                 if ((plugin[slideType].currentSlide == 0 && eventPos > startClienPos) || (plugin[slideType].currentSlide == plugin[slideType].slideCount - 1 && eventPos < startClienPos)) {
@@ -318,6 +310,7 @@ Credits to Matteo Spinelli, http://cubiq.org
     }
 
     $.fn.touchSlide = function (options) {  
+        /* At the moment I am rebuilding plugin from scratch if called twice, need to create destroy and refresh methods for more flexibility */
         return this.each(function () {
             new touchSlide(this, options)
         });
